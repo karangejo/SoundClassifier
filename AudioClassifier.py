@@ -66,7 +66,7 @@ def prepare_data_stft(df):
     # split the data
     x_train, x_test, y_train, y_test = train_test_split(X,Y,test_size=0.1, random_state=1)
     #return it
-    return(x_train,x_test,y_train,y_test)
+    return(x_train,x_test,y_train,y_test,le)
 
 # this function returns a list with our prepared training and test data
 # separated into X and Y components
@@ -80,7 +80,7 @@ def prepare_data_mfccs(df):
     # split the data
     x_train, x_test, y_train, y_test = train_test_split(X,Y,test_size=0.1, random_state=1)
     #return it
-    return(x_train,x_test,y_train,y_test)
+    return(x_train,x_test,y_train,y_test,le)
 
 # this function builds the neural net for us
 # and prints some initial information
@@ -126,7 +126,7 @@ def build_neural_net(x_trn, x_tst, y_trn, y_tst):
 # backs it up to a file and evaluates it on the training and test data
 def train_neural_net(model,num_epochs,num_batch_size,x_trn, x_tst, y_trn, y_tst):
     # save a checkpoint in case something goes wrong while training
-    checkpointer = ModelCheckpoint(filepath='/home/karang/Documents/python3/checkpointModel.hdf5',verbose=1,save_best_only=True)
+    checkpointer = ModelCheckpoint(filepath=home_dir + 'checkpointModel.hdf5',verbose=1,save_best_only=True)
 
     start = datetime.now()
     # fit the model
@@ -176,18 +176,34 @@ def load_model_from_disk():
     print("Model loaded and returned")
     return(model)
 
+def get_prediction_stft(audio_file_path,model,le):
+    stft, mfccs = get_features(audio_file_path)
+    result = model.predict(np.array([stft]))
+    predictions = [np.argmax(y) for y in result]
+    label = le.inverse_transform(predictions)[0]
+    return(label)
+
+def get_prediction_mfccs(audio_file_path,model,le):
+    stft, mfccs = get_features(audio_file_path)
+    result = model.predict(np.array([mfccs]))
+    predictions = [np.argmax(y) for y in result]
+    label = le.inverse_transform(predictions)[0]
+    return(label)
+
 def run_stft_model(epochs, batch_size):
     df = get_dataset_from_folders(home_dir +'dataset')
-    data = prepare_data_stft(df)
-    model = build_neural_net(data[0],data[1],data[2],data[3])
-    model, history = train_neural_net(model,epochs,batch_size,data[0],data[1],data[2],data[3])
+    xtrain, xtest, ytrain, ytest, le = prepare_data_stft(df)
+    model = build_neural_net(xtrain, xtest, ytrain, ytest)
+    model, history = train_neural_net(model,epochs,batch_size,xtrain, xtest, ytrain, ytest)
     plot_training(history)
     save_model(model)
+    return(model,history,le)
 
 def run_mfccs_model(epochs, batch_size):
     df = get_dataset_from_folders(home_dir +'dataset')
-    data = prepare_data_mfccs(df)
-    model = build_neural_net(data[0],data[1],data[2],data[3])
-    model, history = train_neural_net(model,epochs,batch_size,data[0],data[1],data[2],data[3])
+    xtrain, xtest, ytrain, ytest, le = prepare_data_mfccs(df)
+    model = build_neural_net(xtrain, xtest, ytrain, ytest)
+    model, history = train_neural_net(model,epochs,batch_size,xtrain, xtest, ytrain, ytest)
     plot_training(history)
     save_model(model)
+    return(model,history,le)
