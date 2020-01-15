@@ -190,6 +190,26 @@ def get_prediction_mfccs(audio_file_path,model,le):
     label = le.inverse_transform(predictions)[0]
     return(label)
 
+def get_predictions_dir_stft(directory,model,le):
+    # loop through all the files in the directory
+    classifications = []
+    dir = os.fsencode(directory)
+    for file in os.listdir(dir):
+        filename = os.fsdecode(file)
+        pred = get_prediction_stft(os.path.join(dir, filename), model, le)
+        classifications.append(pred)
+    return(classifications)
+
+def get_predictions_dir_mfccs(directory,model,le):
+    # loop through all the files in the directory
+    classifications = []
+    dir = os.fsencode(directory)
+    for file in os.listdir(dir):
+        filename = os.fsdecode(file)
+        pred = get_prediction_mfccs(os.path.join(dir, filename), model, le)
+        classifications.append(pred)
+    return(classifications)
+
 def run_stft_model(epochs, batch_size):
     df = get_dataset_from_folders(home_dir +'dataset')
     xtrain, xtest, ytrain, ytest, le = prepare_data_stft(df)

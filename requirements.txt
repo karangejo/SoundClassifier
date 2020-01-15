@@ -1,0 +1,16 @@
+
+aubio==0.4.5
+audioread==2.1.8
+h5py==2.10.0
+Keras==2.3.1
+librosa==0.7.1
+matplotlib==3.1.2
+numba==0.47.0
+numpy==1.18.1
+pandas==0.25.3
+pyalsaaudio==0.8.4
+rtmidi==2.3.4
+scikit-learn==0.22.1
+scipy==1.4.1
+sklearn==0.0
+tensorflow==1.14.0
