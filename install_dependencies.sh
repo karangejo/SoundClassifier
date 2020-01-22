@@ -15,3 +15,5 @@ for arg in $dependencies;
 do
 check_and_install $arg
 done
+
+pip3 install virtualenv

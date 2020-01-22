@@ -10,7 +10,7 @@ virtualenv soundClassifier
 
 # after that activate it by running:
 
-./activate
+source activate
 
 # finally install all the python dependencies by running:
 

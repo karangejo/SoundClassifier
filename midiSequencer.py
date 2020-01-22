@@ -5,8 +5,8 @@ import rtmidi
 # and returns a dictionary to convert between the two
 def classes_to_midi_dict(classes,midi_notes):
     classes_to_midi = {}
-    for index, class in enumerate(classes):
-        classes_to_midi.update({class,midi_notes[index]})
+    for i in range(len(classes)):
+        classes_to_midi.update({classes[i],midi_notes[i]})
     return(classes_to_midi)
 
 # a function that plays a midi sequnce given an array of time intervals for beat slices (in seconds)

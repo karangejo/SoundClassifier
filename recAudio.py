@@ -19,6 +19,8 @@ import alsaaudio
 
 outputfile = 'rec.wav'
 device = 'default'
+
+# untested code to record audio from microphone and save it to a file.
 def record_audio_to_file(device,outputfile,duration):
     f = open(outputfile, 'wb')
 
