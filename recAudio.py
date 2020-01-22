@@ -18,6 +18,8 @@ import time
 import alsaaudio
 import pyaudio
 import wave
+import subprocess
+
 
 outputfile = 'rec.wav'
 device = 'default'
@@ -146,3 +148,7 @@ def rec_audio_to_file_keyboard_interrupt(outputfile,duration):
         wf.setframerate(fs)
         wf.writeframes(b''.join(frames))
         wf.close()
+
+# function to record audio from jack 
+def rec_audio_from_jack(outputfile,port,duration):
+    subprocess.check_output(["jack_capture","--port",port,'-d',duration, outputfile])
