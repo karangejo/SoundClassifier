@@ -120,14 +120,6 @@ def rec_audio_to_file_keyboard_interrupt(outputfile,duration):
                     input=True)
 
     frames = []  # Initialize array to store frames
-    '''
-        try to integrate this loop so we can record as long as needed and then press a button to stop
-        try:
-            while True:
-                do_something()
-        except KeyboardInterrupt:
-            pass
-    '''
     try:
         while True:
             data = stream.read(chunk)
@@ -149,6 +141,6 @@ def rec_audio_to_file_keyboard_interrupt(outputfile,duration):
         wf.writeframes(b''.join(frames))
         wf.close()
 
-# function to record audio from jack 
+# function to record audio from jack
 def rec_audio_from_jack(outputfile,port,duration):
     subprocess.check_output(["jack_capture","--port",port,'-d',duration, outputfile])
