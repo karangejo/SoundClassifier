@@ -1,6 +1,4 @@
 
-aubio==0.4.5
-audioread==2.1.8
 h5py==2.10.0
 Keras==2.3.1
 librosa==0.7.1

@@ -2,11 +2,11 @@
 
 # First run:
 
-sudo ./install_dependencies
+sudo ./install_dependencies.sh
 
 # then set up a python virtual environment by running:
 
-virtualenv soundClassifier
+virtualenv --python=python3 soundClassifier
 
 # after that activate it by running:
 
